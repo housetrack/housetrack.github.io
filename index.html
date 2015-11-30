@@ -62,7 +62,7 @@
         <form>
             <div class="spacer10"></div>
             <div class="row">
-                <div class="col-xs-7">
+                <div class="col-xs-10">
                     <select id="payment-frequency" data-width="130px">
                         <option <%= paymentFrequency == 'm' ? 'selected' : '' %> value="m">Monthly</option>
                         <option <%= paymentFrequency == 'sm' ? 'selected' : '' %> value="sm">Semi-monthly</option>
@@ -71,7 +71,7 @@
                     </select>
                     <label id="payment-amount"><%= payment %></label>
                 </div>
-                <div class="col-xs-5">
+                <div class="col-xs-2">
                     <button id="calculate-button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-flash"></span><span class="nav-text"> Calculate</span></button>
                 </div>
             </div>
