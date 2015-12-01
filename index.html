@@ -79,7 +79,7 @@
                         <option <%= paymentFrequency == 'bw' ? 'selected' : '' %> value="bw">Bi-weekly</option>
                         <option <%= paymentFrequency == 'w' ? 'selected' : '' %> value="w">Weekly</option>
                     </select>
-                    <label id="payment-amount"> <%= payment %></label>
+                    <span>payment: </span> <label id="payment-amount"><%= payment %></label>
                 </div>
             </div>
             <div class="spacer10"></div>
