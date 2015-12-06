@@ -38,6 +38,7 @@
     <script type="text/javascript" src="https://cdn.rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/lib/backbonejs-1.2.1/backbone-min.js"></script>
     <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/namespace.js"></script>
     <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/view-utils.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/interest-utils.js"></script>
     <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/router.js"></script>
     <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/header-view.js"></script>
     <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/mortgage-view/web/src/main/webapp/javascript/models.js"></script>
@@ -80,6 +81,7 @@
                         <option <%= paymentFrequency == 'w' ? 'selected' : '' %> value="w">Weekly</option>
                     </select>
                     <span>payment: </span> <label id="payment-amount"><%= payment %></label>
+                    <span>; loss: </span> <label id="loss-amount"><%= loss %></label>
                 </div>
             </div>
             <div class="spacer10"></div>
