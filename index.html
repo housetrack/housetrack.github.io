@@ -71,21 +71,23 @@
     <div id="mortgage" class="container-fluid max-width">
         <form>
             <div class="spacer5"></div>
-            <div class="calculated-table">
-                <div class="row">
-                    <div class="col-xs-3" style="vertical-align: middle;">
-                        <label class="calculated-label">Payment:</label>
+            <div class="panel panel-default">
+                <div class="panel-body highlight calculation-panel">
+                    <div class="row">
+                        <div class="col-xs-3" style="vertical-align: middle;">
+                            <label class="calculated-label">Payment:</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <label id="payment-amount" class="calculated-amount"><%= payment %></label>
+                        </div>
                     </div>
-                    <div class="col-xs-9">
-                        <label id="payment-amount" class="calculated-amount"><%= payment %></label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        <label class="calculated-label">Loss:</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <label id="loss-amount" class="calculated-amount red"><%= loss %></label>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="calculated-label">Loss:</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <label id="loss-amount" class="calculated-amount red"><%= loss %></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,7 +102,7 @@
                             -->
                         </tr>
                         <tr><td>
-                            <select id="payment-frequency" data-width="130px">
+                            <select id="payment-frequency" data-width="130px" class="form-control">
                                 <option <%= paymentFrequency == 'm' ? 'selected' : '' %> value="m">Monthly</option>
                                 <option <%= paymentFrequency == 'sm' ? 'selected' : '' %> value="sm">Semi-monthly</option>
                                 <option <%= paymentFrequency == 'bw' ? 'selected' : '' %> value="bw">Bi-weekly</option>
