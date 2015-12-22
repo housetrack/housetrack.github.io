@@ -35,16 +35,6 @@
     <script type="text/javascript" src="https://cdn.rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/lib/underscorejs-1.8.3/underscore-min.js"></script>
     <script type="text/javascript" src="https://cdn.rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/lib/backbonejs-1.2.1/backbone-min.js"></script>
     <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/namespace.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/view-utils.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/interest-utils.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/string-utils.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/router.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/header-view.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/models.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/mortgage-payment.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/mortgage-payment-view.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/application.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/boot/boot.js"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -54,7 +44,25 @@
       ga('create', 'UA-70851311-1', 'auto');
       ga('send', 'pageview');
 
+      Abtechbit.Mogwiz.GoogleNavigationListener = {
+        navigatedTo: function(hash){
+            ga('set', 'page', '/' + hash);
+            ga('send', 'pageview');
+        }
+      }
     </script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/view-utils.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/interest-utils.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/string-utils.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/router.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/header-view.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/models.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/mortgage-payment.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/mortgage-payment-view.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/mortgage-compare-view.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/application.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/abtechbit/housetrack/master/web/src/main/webapp/javascript/boot/boot.js"></script>
+
 </head>
 <body>
 <div id="header">
@@ -77,8 +85,15 @@
                         <div class="col-xs-3" style="vertical-align: middle;">
                             <label class="calculated-label">Payment:</label>
                         </div>
-                        <div class="col-xs-9">
-                            <label id="payment-amount" class="calculated-amount"><%= payment %></label>
+                        <div class="col-xs-4">
+                            <label id="paymentAmount" class="calculated-amount"><%= paymentAmount %></label>
+                        </div>
+                        <div class="col-xs-1 nav-text"> <span></span></div>
+                        <div class="col-xs-3">
+                            <button id="compare" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-tags" ></span><span class="nav-text" style="padding-left: 8px;">Compare</span></button>
+                        </div>
+                        <div class="col-xs-1">
+                            <button id="calculate" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-repeat"></span></button>
                         </div>
                     </div>
                     <div class="row">
@@ -86,7 +101,7 @@
                             <label class="calculated-label">Loss:</label>
                         </div>
                         <div class="col-xs-9">
-                            <label id="loss-amount" class="calculated-amount red"><%= loss %></label>
+                            <label id="lossAmount" class="calculated-amount red"><%= lossAmount %></label>
                         </div>
                     </div>
                 </div>
@@ -95,14 +110,14 @@
             <div class="row">
                 <div class="col-xs-12">
                     <table>
-                        <tr><td><label for="payment-frequency">Frequency:</label></td>
+                        <tr><td><label for="paymentFrequency">Frequency:</label></td>
 
                             <!--
                             <td><label id="payment-compounding">Compounding: </label></td>
                             -->
                         </tr>
                         <tr><td>
-                            <select id="payment-frequency" data-width="130px" class="form-control input-lg">
+                            <select id="paymentFrequency" data-width="130px" class="form-control input-lg">
                                 <option <%= paymentFrequency == 'm' ? 'selected' : '' %> value="m">Monthly</option>
                                 <option <%= paymentFrequency == 'sm' ? 'selected' : '' %> value="sm">Semi-monthly</option>
                                 <option <%= paymentFrequency == 'bw' ? 'selected' : '' %> value="bw">Bi-weekly</option>
@@ -136,16 +151,16 @@
             <div class="spacer10"></div>
             <div class="row">
                 <div class="col-xs-12">
-                    <label for="years">Years:</label>
+                    <label for="amortizationYears">Years:</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-5">
-                    <input name="years" id="years" min="1" max="50" type="number" step="1" value="<%= years %>" class="form-control input-lg">
+                    <input name="amortizationYears" id="amortizationYears" min="1" max="50" type="number" step="1" value="<%= amortizationYears %>" class="form-control input-lg">
                 </div>
                 <div class="col-xs-7">
                     <input  id="yearsSliderInput" data-slider-id='yearsSlider' type="text" data-slider-min="1" data-slider-max="50"
-                            data-slider-step="1" data-slider-value="<%= years %>"/>
+                            data-slider-step="1" data-slider-value="<%= amortizationYears %>"/>
                 </div>
             </div>
             <div class="spacer10"></div>
@@ -172,6 +187,199 @@
             <div class="row">
                 <div class="col-xs-12">
                     <input name="downpayment" id="downpayment" min="0" max="<%= principal %>" type="number" step="100" value="<%= downpayment %>" class="form-control input-lg">
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/template" id="mortgage-compare-view-template">
+    <div id="mortgage-compare" class="container-fluid max-width">
+        <form>
+            <div class="spacer5"></div>
+            <div class="panel panel-default">
+                <div class="panel-body highlight calculation-panel">
+                    <div class="row">
+                        <div class="col-xs-7" style="vertical-align: middle;">
+                            <label class="calculated-label-compare">Payment:</label>
+                        </div>
+                        <div class="col-xs-1 nav-text"> <span></span></div>
+                        <div class="col-xs-1" style="vertical-align: middle;">
+                            <button id="single-mortgage" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-tag"></span><span class="nav-text"> Back</span></button>
+                        </div>
+                        <div class="col-xs-1 nav-text"> <span></span></div>
+                        <div class="col-xs-1" style="vertical-align: middle;">
+                            <button id="reset-1" data-index="1" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-remove-circle"></span><span class="nav-text"> Reset</span></button>
+                        </div>
+                        <div class="col-xs-1" style="vertical-align: middle;">
+                            <button id="calculate" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-repeat"></span><span class="nav-text"></span></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label id="payment-0" class="calculated-amount"></label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label id="payment-1" class="calculated-amount"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" style="vertical-align: middle;">
+                            <label></label>
+                        </div>
+                        <div class="col-xs-6" style="vertical-align: middle;">
+                            <label id="paymentDifference-1" class="calculated-difference-amounter"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label class="calculated-label-compare">Total Loss:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label id="totalLoss-0" class="calculated-amount red"></label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label id="totalLoss-1" class="calculated-amount red"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" style="vertical-align: middle;">
+                            <label></label>
+                        </div>
+                        <div class="col-xs-6" style="vertical-align: middle;">
+                            <label id="totalLossDifference-1" class="calculated-difference-amounter"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label class="calculated-label-compare">Term Loss:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label id="termLoss-0" class="calculated-amount red"></label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label id="termLoss-1" class="calculated-amount red"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" style="vertical-align: middle;">
+                            <label></label>
+                        </div>
+                        <div class="col-xs-6" style="vertical-align: middle;">
+                            <label id="termLossDifference-1" class="calculated-difference-amounter"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for="compounding-0">Country:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <select id="compounding-0" data-width="130px" class="form-control input-lg">
+                        <option <%= mortgages[0].compounding == 'ca' ? 'selected' : '' %> value="ca">Canada</option>
+                        <option <%= mortgages[0].compounding == 'us' ? 'selected' : '' %> value="us">US</option>
+                    </select>
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Frequency:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <select id="paymentFrequency-0" data-width="130px" class="form-control input-lg">
+                        <option <%= mortgages[0].paymentFrequency == 'm' ? 'selected' : '' %> value="m">Monthly</option>
+                        <option <%= mortgages[0].paymentFrequency == 'sm' ? 'selected' : '' %> value="sm">Semi-monthly</option>
+                        <option <%= mortgages[0].paymentFrequency == 'bw' ? 'selected' : '' %> value="bw">Bi-weekly</option>
+                        <option <%= mortgages[0].paymentFrequency == 'w' ? 'selected' : '' %> value="w">Weekly</option>
+                    </select>
+                </div>
+                <div class="col-xs-6">
+                    <select id="paymentFrequency-1" data-width="130px" class="form-control input-lg">
+                        <option <%= mortgages[1].paymentFrequency == 'm' ? 'selected' : '' %> value="m">Monthly</option>
+                        <option <%= mortgages[1].paymentFrequency == 'sm' ? 'selected' : '' %> value="sm">Semi-monthly</option>
+                        <option <%= mortgages[1].paymentFrequency == 'bw' ? 'selected' : '' %> value="bw">Bi-weekly</option>
+                        <option <%= mortgages[1].paymentFrequency == 'w' ? 'selected' : '' %> value="w">Weekly</option>
+                    </select>
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Principal:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input id="principal-0" type="number" value="<%= mortgages[0].principal %>" class="form-control input-lg" step="10000">
+                </div>
+                <div class="col-xs-6">
+                    <input id="principal-1" type="number" value="<%= mortgages[1].principal %>" class="form-control input-lg" step="10000">
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Interest (%):</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input id="interest-0" type="number" value="<%= mortgages[0].interest %>" class="form-control input-lg"  min="0.01" max="30" type="number" step="0.01">
+                </div>
+                <div class="col-xs-6">
+                    <input id="interest-1" type="number" value="<%= mortgages[1].interest %>" class="form-control input-lg"  min="0.01" max="30" type="number" step="0.01">
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Amortization (years): </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input id="amortizationYears-0" min="1" max="50" type="number" step="1" value="<%= mortgages[0].amortizationYears %>" class="form-control input-lg">
+                </div>
+                <div class="col-xs-6">
+                    <input id="amortizationYears-1" min="1" max="50" type="number" step="1" value="<%= mortgages[1].amortizationYears %>" class="form-control input-lg">
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Term (years): </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input id="termYears-0" min="1" max="50" type="number" step="1" value="<%= mortgages[0].termYears %>" class="form-control input-lg">
+                </div>
+                <div class="col-xs-6">
+                    <input id="termYears-1" min="1" max="50" type="number" step="1" value="<%= mortgages[1].termYears %>" class="form-control input-lg">
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Downpayment: </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input id="downpayment-0" min="0" max="<%= mortgages[0].principal %>" type="number" step="100" value="<%=  mortgages[0].downpayment %>" class="form-control input-lg">
+                </div>
+                <div class="col-xs-6">
+                    <input id="downpayment-1" min="0" max="<%= mortgages[1].principal %>" type="number" step="100" value="<%=  mortgages[1].downpayment %>" class="form-control input-lg">
                 </div>
             </div>
         </form>
